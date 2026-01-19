@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>iOS Home</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: url("fondo.jpg") center/cover no-repeat;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 40px 20px;
+}
+
+.app {
+  text-align: center;
+  font-size: 12px;
+  color: white;
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.15);
+  margin: 0 auto 6px;
+}
+</style>
+</head>
+
+<body>
+<div class="grid" id="apps"></div>
+
+<script>
+const appsPorLetra = {
+A: "Amazon",
+B: "Booking",
+C: "Chrome",
+D: "Dropbox",
+E: "eBay",
+F: "Facebook",
+G: "Gmail",
+I: "Instagram",
+L: "LinkedIn",
+M: "Maps",
+N: "Netflix",
+O: "Outlook",
+R: "Revolut",
+S: "Spotify",
+T: "TripAdvisor",
+U: "Uber",
+W: "WhatsApp",
+Y: "YouTube"
+};
+
+const valores = {
+1: "AS",
+2: "DOS",
+3: "TRES",
+4: "CUATRO",
+5: "CINCO",
+6: "SEIS",
+7: "SIETE",
+8: "OCHO",
+9: "NUEVE",
+10: "DIEZ",
+11: "JOTA",
+12: "REINA",
+13: "REY"
+};
+
+const palos = {
+1: "PICAS",
+2: "CORAZONES",
+3: "TREBOLES",
+4: "DIAMANTES"
+};
+
+const params = new URLSearchParams(location.search || "v=1&p=4");
+
+const valor = valores[params.get("v")] || "";
+const palo = palos[params.get("p")] || "";
+
+const texto = `${valor}DE${palo}`;
+const grid = document.getElementById("apps");
+
+[...texto].forEach(letra => {
+  const nombre = appsPorLetra[letra] || "App";
+  const app = document.createElement("div");
+  app.className = "app";
+  app.innerHTML = `<div class="icon"></div>${nombre}`;
+  grid.appendChild(app);
+});
+</script>
+</body>
+</html>
