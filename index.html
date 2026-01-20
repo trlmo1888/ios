@@ -70,19 +70,18 @@ const appsPorLetra = {
 };
 
 const valores = {
-1: "AS", 2: "DOS", 3: "TRES", 4: "CUATRO",
-5: "CINCO", 6: "SEIS", 7: "SIETE",
-8: "OCHO", 9: "NUEVE", 10: "DIEZ",
-11: "JOTA", 12: "REINA", 13: "REY"
+  1: "AS", 2: "DOS", 3: "TRES", 4: "CUATRO",
+  5: "CINCO", 6: "SEIS", 7: "SIETE",
+  8: "OCHO", 9: "NUEVE", 10: "DIEZ",
+  11: "JOTA", 12: "REINA", 13: "REY"
 };
 
 const palos = {
-1: "PICAS", 2: "CORAZONES",
-3: "TREBOLES", 4: "DIAMANTES"
+  1: "PICAS", 2: "CORAZONES",
+  3: "TREBOLES", 4: "DIAMANTES"
 };
 
 const params = new URLSearchParams(location.search || "v=1&p=4");
-
 const valor = valores[params.get("v")] || "";
 const palo = palos[params.get("p")] || "";
 
@@ -90,15 +89,15 @@ const texto = `${valor}DE${palo}`;
 const grid = document.getElementById("apps");
 
 texto.split("").forEach(letra => {
-  const appData = appsPorLetra[letra];
-
   const app = document.createElement("div");
   app.className = "app";
 
-  if (appData) {
+  const data = appsPorLetra[letra];
+
+  if (data) {
     app.innerHTML = `
-      <img src="${appData.img}" class="icon" alt="${appData.nombre}">
-      <div>${appData.nombre}</div>
+      <img src="${data.img}" class="icon" alt="${data.nombre}">
+      <div>${data.nombre}</div>
     `;
   } else {
     app.innerHTML = `
@@ -109,7 +108,6 @@ texto.split("").forEach(letra => {
 
   grid.appendChild(app);
 });
-
 </script>
 </body>
 </html>
