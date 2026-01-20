@@ -90,11 +90,26 @@ const texto = `${valor}DE${palo}`;
 const grid = document.getElementById("apps");
 
 texto.split("").forEach(letra => {
+  const appData = appsPorLetra[letra];
+
   const app = document.createElement("div");
   app.className = "app";
-  app.innerHTML = `<div class="icon"></div>${appsPorLetra[letra] || "App"}`;
+
+  if (appData) {
+    app.innerHTML = `
+      <img src="${appData.img}" class="icon" alt="${appData.nombre}">
+      <div>${appData.nombre}</div>
+    `;
+  } else {
+    app.innerHTML = `
+      <div class="icon"></div>
+      <div>App</div>
+    `;
+  }
+
   grid.appendChild(app);
 });
+
 </script>
 </body>
 </html>
