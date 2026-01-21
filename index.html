@@ -1,113 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>iOS Home</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>iPhone Home</title>
 <style>
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-
-  background-image: url('IMG_0765.PNG');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-
-  /* clave para que se sienta como iPhone */
-  height: 100vh;
-  overflow: hidden;
-
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  padding: 40px 20px;
-}
-
-.app {
-  text-align: center;
-  font-size: 12px;
-  color: white;
-}
-
-.icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.3);
-  margin: 0 auto 6px;
-}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body,html{width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif}
+body{background:linear-gradient(135deg,#FFB6C1,#3E3674)}
+.home{width:100%;height:100%;display:flex;flex-direction:column;padding:20px}
+.grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.app{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:white}
+.icon{width:60px;height:60px;border-radius:13px;overflow:hidden;background:white;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.icon img{width:100%;height:100%;object-fit:cover}
+/* NOTAS fija abajo derecha */
+.notas-fixed{position:absolute;right:20px;bottom:20px}
+/* App Notas abierta */
+.notas-app{position:fixed;inset:0;background:#fff;z-index:10;display:none;flex-direction:column;transform:scale(0.9) translateY(40px);opacity:0;transition:all .35s cubic-bezier(.22,1,.36,1)}
+.notas-header{height:50px;background:#f2f2f2;display:flex;align-items:center;justify-content:center;font-weight:600}
+.notas-body{flex:1;padding:16px}
+.notas-body textarea{width:100%;height:100%;border:none;outline:none;font-size:18px}
+.notas-footer{padding:12px;border-top:1px solid #ddd}
+.notas-footer button{width:100%;padding:14px;font-size:16px;border:none;border-radius:12px;background:#ffcc00}
 </style>
 </head>
-
 <body>
-<div class="grid" id="apps"></div>
+<div class="home" id="home">
+  <div class="grid" id="grid"></div>
+</div>
 
-<script defer>
-const appsPorLetra = {
-  A: { nombre: "Amazon", img: "images/amazon.png" },
-  B: { nombre: "Booking", img: "images/booking.png" },
-  C: { nombre: "Chrome", img: "images/chrome.png" },
-  D: { nombre: "Dropbox", img: "images/dropbox.png" },
-  E: { nombre: "eBay", img: "images/ebay.png" },
-  F: { nombre: "Facebook", img: "images/facebook.png" },
-  G: { nombre: "Gmail", img: "images/gmail.png" },
-  I: { nombre: "Instagram", img: "images/instagram.png" },
-  L: { nombre: "LinkedIn", img: "images/linkedin.png" },
-  M: { nombre: "Maps", img: "images/maps.png" },
-  N: { nombre: "Netflix", img: "images/netflix.png" },
-  O: { nombre: "Outlook", img: "images/outlook.png" },
-  R: { nombre: "Revolut", img: "images/revolut.png" },
-  S: { nombre: "Spotify", img: "images/spotify.png" },
-  T: { nombre: "TripAdvisor", img: "images/tripadvisor.png" },
-  U: { nombre: "Uber", img: "images/uber.png" },
-  W: { nombre: "WhatsApp", img: "images/whatsapp.png" },
-  Y: { nombre: "YouTube", img: "images/youtube.png" }
+<!-- Icono NOTAS fijo -->
+<div class="app notas-fixed" id="notasIcon">
+  <div class="icon"><img src="notas.jpg"></div>
+  <span>Notas</span>
+</div>
+
+<!-- App NOTAS -->
+<div class="notas-app" id="notasApp">
+  <div class="notas-header">Notas</div>
+  <div class="notas-body">
+    <textarea id="notaTexto" placeholder="Escribe aquí..."></textarea>
+  </div>
+  <div class="notas-footer">
+    <button id="exitNotas">Exit</button>
+  </div>
+</div>
+
+<script>
+const apps=[
+ {name:'Safari',img:'safari.jpg'},
+ {name:'WhatsApp',img:'whatsapp.jpg'},
+ {name:'Spotify',img:'spotify.jpg'},
+ {name:'Twitter',img:'twitter.jpg'}
+];
+
+const grid=document.getElementById('grid');
+function renderApps(list){
+ grid.innerHTML='';
+ list.forEach(a=>{
+  const d=document.createElement('div');
+  d.className='app';
+  d.innerHTML=`<div class="icon"><img src="${a.img}"></div><span>${a.name}</span>`;
+  grid.appendChild(d);
+ });
+}
+renderApps(apps);
+
+// NOTAS
+const notasIcon=document.getElementById('notasIcon');
+const notasApp=document.getElementById('notasApp');
+const exitNotas=document.getElementById('exitNotas');
+const notaTexto=document.getElementById('notaTexto');
+
+notasIcon.onclick=()=>{
+ notasApp.style.display='flex';
+ requestAnimationFrame(()=>{
+  notasApp.style.transform='scale(1) translateY(0)';
+  notasApp.style.opacity='1';
+ });
 };
 
-const valores = {
-  1: "AS", 2: "DOS", 3: "TRES", 4: "CUATRO",
-  5: "CINCO", 6: "SEIS", 7: "SIETE",
-  8: "OCHO", 9: "NUEVE", 10: "DIEZ",
-  11: "JOTA", 12: "REINA", 13: "REY"
+exitNotas.onclick=()=>{
+ notasApp.style.transform='scale(0.9) translateY(40px)';
+ notasApp.style.opacity='0';
+ setTimeout(()=>{
+ const palabra=notaTexto.value.trim();
+ notasApp.style.display='none';
+ if(palabra){
+  const orden=[...apps].sort(()=>Math.random()-0.5);
+  renderApps(orden);
+ }
+ notaTexto.value='';
+ },300);
 };
-
-const palos = {
-  1: "PICAS", 2: "CORAZONES",
-  3: "TREBOLES", 4: "DIAMANTES"
-};
-
-const params = new URLSearchParams(location.search || "v=1&p=4");
-const valor = valores[params.get("v")] || "";
-const palo = palos[params.get("p")] || "";
-
-const texto = `${valor}DE${palo}`;
-const grid = document.getElementById("apps");
-
-texto.split("").forEach(letra => {
-  const app = document.createElement("div");
-  app.className = "app";
-
-  const data = appsPorLetra[letra];
-
-  if (data) {
-    app.innerHTML = `
-      <img src="${data.img}" class="icon" alt="${data.nombre}">
-      <div>${data.nombre}</div>
-    `;
-  } else {
-    app.innerHTML = `
-      <div class="icon"></div>
-      <div>App</div>
-    `;
-  }
-
-  grid.appendChild(app);
-});
 </script>
 </body>
 </html>
